@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="form.css">
+    <title>Contact Form</title>
+
+</head>
+<body>
+    <form id="contact-form">
+        <h2>Contact Us</h2>
+        <input type="text" id="name" name="name" placeholder="Your Name" required>
+        <input type="email" id="email" name="email" placeholder="Your Email" required>
+        <textarea id="message" name="message" placeholder="Your Message" rows="4" required></textarea>
+        <button type="submit">Send</button>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("5QfHG_Dsq9hDP-1o2"); // Replace "YOUR_API_KEY" with your EmailJS API key
+        })();
+
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Collect form data
+            const formData = new FormData(this);
+            // Add additional fields for EmailJS
+            const templateParams = {
+                from_name: formData.get('name'),
+                from_email: formData.get('email'),
+                message: formData.get('message')
+            };
+            emailjs.send('service_l2v14pl', 'template_5h6y9sl', templateParams) // Replace with your actual service and template IDs
+                .then(function() {
+                    console.log('SUCCESS!');
+                    alert('Your message has been sent successfully!');
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    alert('Oops! Something went wrong. Please try again.');
+                });
+        });
+    </script>
+</body>
+</html>
